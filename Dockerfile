@@ -19,4 +19,5 @@ RUN cd ~; \
 	chmod +x /root/run.sh; \
 	echo "Ok"
 
+VOLUME /data
 CMD ["/root/run.sh"]
