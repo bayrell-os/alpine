@@ -5,17 +5,49 @@ SCRIPT_PATH=`dirname $SCRIPT`
 BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
+VERSION=3.11
+SUBVERSION=1
 TAG=`date '+%Y%m%d_%H%M%S'`
 
 case "$1" in
 	
-	docker)
-		docker build ./ -t bayrell/alpine:3.11-$TAG --file Dockerfile
-		docker tag bayrell/alpine:3.11-$TAG bayrell/alpine:3.11
+	test)
+		docker build ./ -t bayrell/alpine:$VERSION-$SUBVERSION-$TAG --file Dockerfile
+	;;
+	
+	amd64)
+		docker build ./ -t bayrell/alpine:$VERSION-$SUBVERSION-amd64 \
+			--file Dockerfile --build-arg ARCH=amd64/
+	;;
+	
+	arm32v7)
+		docker build ./ -t bayrell/alpine:$VERSION-$SUBVERSION-arm32v7 \
+			--file Dockerfile --build-arg ARCH=arm32v7/
+	;;
+	
+	manifest)
+		docker push bayrell/alpine:$VERSION-$SUBVERSION-amd64
+		docker push bayrell/alpine:$VERSION-$SUBVERSION-arm32v7
+		
+		docker manifest create bayrell/alpine:$VERSION-$SUBVERSION \
+			--amend bayrell/alpine:$VERSION-$SUBVERSION-amd64 \
+			--amend bayrell/alpine:$VERSION-$SUBVERSION-arm32v7
+		docker manifest push bayrell/alpine:$VERSION-$SUBVERSION
+		
+		docker manifest create bayrell/alpine:$VERSION \
+			--amend bayrell/alpine:$VERSION-$SUBVERSION-amd64 \
+			--amend bayrell/alpine:$VERSION-$SUBVERSION-arm32v7
+		docker manifest push bayrell/alpine:$VERSION
+	;;
+	
+	all)
+		$0 amd64
+		$0 arm32v7
+		$0 manifest
 	;;
 	
 	*)
-		echo "Usage: $0 {docker}"
+		echo "Usage: $0 {amd64|arm32v7|manifest|all|test}"
 		RETVAL=1
 
 esac
