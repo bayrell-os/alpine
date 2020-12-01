@@ -26,6 +26,8 @@ case "$1" in
 	;;
 	
 	manifest)
+		rm -rf ~/.docker/manifests/docker.io_bayrell_alpine-*
+		
 		docker push bayrell/alpine:$VERSION-$SUBVERSION-amd64
 		docker push bayrell/alpine:$VERSION-$SUBVERSION-arm32v7
 		
