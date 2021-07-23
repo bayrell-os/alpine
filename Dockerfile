@@ -1,10 +1,10 @@
 ARG ARCH=
-FROM ${ARCH}alpine:3.12
+FROM ${ARCH}alpine:3.14
 
 RUN cd ~; \
 	echo "" > /etc/apk/repositories; \
-	echo "https://mirror.yandex.ru/mirrors/alpine/v3.12/main" >> /etc/apk/repositories; \
-	echo "https://mirror.yandex.ru/mirrors/alpine/v3.12/community" >> /etc/apk/repositories; \
+	echo "https://mirror.yandex.ru/mirrors/alpine/v3.14/main" >> /etc/apk/repositories; \
+	echo "https://mirror.yandex.ru/mirrors/alpine/v3.14/community" >> /etc/apk/repositories; \
 	apk update; \
 	apk add bash nano mc wget net-tools pv zip unzip supervisor procps grep sudo; \
 	rm -rf /var/cache/apk/*; \
@@ -20,5 +20,4 @@ RUN cd ~; \
 	chmod +x /root/run.sh; \
 	echo "Ok"
 
-VOLUME /data
 CMD ["/root/run.sh"]
