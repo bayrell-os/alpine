@@ -6,7 +6,7 @@ RUN cd ~; \
 	echo "https://mirror.yandex.ru/mirrors/alpine/v3.14/main" >> /etc/apk/repositories; \
 	echo "https://mirror.yandex.ru/mirrors/alpine/v3.14/community" >> /etc/apk/repositories; \
 	apk update; \
-	apk add bash nano mc wget net-tools pv zip unzip supervisor procps grep sudo; \
+	apk add bash nano mc wget net-tools pv zip unzip supervisor procps grep sudo util-linux; \
 	rm -rf /var/cache/apk/*; \
 	echo "export EDITOR=nano" > /etc/profile.d/editor_nano; \
 	echo "Ok"
