@@ -33,9 +33,17 @@ case "$1" in
 	manifest)
 		rm -rf ~/.docker/manifests/docker.io_bayrell_alpine-*
 		
+		docker tag bayrell/alpine:$VERSION-$SUBVERSION-amd64 bayrell/alpine:$VERSION-amd64
+		docker tag bayrell/alpine:$VERSION-$SUBVERSION-arm32v7 bayrell/alpine:$VERSION-arm32v7
+		docker tag bayrell/alpine:$VERSION-$SUBVERSION-arm64v8 bayrell/alpine:$VERSION-arm64v8
+		
 		docker push bayrell/alpine:$VERSION-$SUBVERSION-amd64
 		docker push bayrell/alpine:$VERSION-$SUBVERSION-arm32v7
 		docker push bayrell/alpine:$VERSION-$SUBVERSION-arm64v8
+		
+		docker push bayrell/alpine:$VERSION-amd64
+		docker push bayrell/alpine:$VERSION-arm32v7
+		docker push bayrell/alpine:$VERSION-arm64v8
 		
 		docker manifest create bayrell/alpine:$VERSION-$SUBVERSION \
 			--amend bayrell/alpine:$VERSION-$SUBVERSION-amd64 \
@@ -44,9 +52,9 @@ case "$1" in
 		docker manifest push bayrell/alpine:$VERSION-$SUBVERSION
 		
 		docker manifest create bayrell/alpine:$VERSION \
-			--amend bayrell/alpine:$VERSION-$SUBVERSION-amd64 \
-			--amend bayrell/alpine:$VERSION-$SUBVERSION-arm32v7 \
-			--amend bayrell/alpine:$VERSION-$SUBVERSION-arm64v8
+			--amend bayrell/alpine:$VERSION-amd64 \
+			--amend bayrell/alpine:$VERSION-arm32v7 \
+			--amend bayrell/alpine:$VERSION-arm64v8
 		docker manifest push bayrell/alpine:$VERSION
 	;;
 	
