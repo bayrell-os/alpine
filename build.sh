@@ -6,27 +6,30 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 VERSION=3.14
-SUBVERSION=2
+SUBVERSION=4
+IMAGE_NAME="alpine"
 TAG=`date '+%Y%m%d_%H%M%S'`
+
+echo "Image bayrell/$IMAGE_NAME build script"
 
 case "$1" in
 	
 	test)
-		docker build ./ -t bayrell/alpine:$VERSION-$SUBVERSION-$TAG --file Dockerfile
+		docker build ./ -t bayrell/$IMAGE_NAME:$VERSION-$SUBVERSION-$TAG --file Dockerfile
 	;;
 	
 	amd64)
-		docker build ./ -t bayrell/alpine:$VERSION-$SUBVERSION-amd64 \
+		docker build ./ -t bayrell/$IMAGE_NAME:$VERSION-$SUBVERSION-amd64 \
 			--file Dockerfile --build-arg ARCH=amd64/
 	;;
 	
 	arm32v7)
-		docker build ./ -t bayrell/alpine:$VERSION-$SUBVERSION-arm32v7 \
+		docker build ./ -t bayrell/$IMAGE_NAME:$VERSION-$SUBVERSION-arm32v7 \
 			--file Dockerfile --build-arg ARCH=arm32v7/
 	;;
 	
 	arm64v8)
-		docker build ./ -t bayrell/alpine:$VERSION-$SUBVERSION-arm64v8 \
+		docker build ./ -t bayrell/$IMAGE_NAME:$VERSION-$SUBVERSION-arm64v8 \
 			--file Dockerfile --build-arg ARCH=arm64v8/
 	;;
 	
