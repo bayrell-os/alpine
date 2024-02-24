@@ -63,16 +63,16 @@ case "$1" in
 	
 	upload-github)
 		docker tag bayrell/alpine:$VERSION-arm64v8 \
-		    ghcr.io/bayrell-os/alpine:$VERSION-arm64v8
+			ghcr.io/bayrell-os/alpine:$VERSION-arm64v8
 		
 		docker tag bayrell/alpine:$VERSION-amd64 \
-		    ghcr.io/bayrell-os/alpine:$VERSION-amd64
+			ghcr.io/bayrell-os/alpine:$VERSION-amd64
 		
 		docker push ghcr.io/bayrell-os/alpine:$VERSION-amd64
 		docker push ghcr.io/bayrell-os/alpine:$VERSION-arm64v8
 		
 		docker manifest create --amend \
-		    ghcr.io/bayrell-os/alpine:$VERSION \
+			ghcr.io/bayrell-os/alpine:$VERSION \
 			ghcr.io/bayrell-os/alpine:$VERSION-amd64 \
 			ghcr.io/bayrell-os/alpine:$VERSION-arm64v8
 		docker manifest push --purge ghcr.io/bayrell-os/alpine:$VERSION
