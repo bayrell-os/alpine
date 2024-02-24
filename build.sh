@@ -6,7 +6,7 @@ BASE_PATH=`dirname $SCRIPT_PATH`
 
 RETVAL=0
 VERSION=3.14
-SUBVERSION=4
+SUBVERSION=5
 IMAGE_NAME="alpine"
 TAG=`date '+%Y%m%d_%H%M%S'`
 
@@ -59,6 +59,23 @@ case "$1" in
 			--amend bayrell/alpine:$VERSION-arm32v7 \
 			--amend bayrell/alpine:$VERSION-arm64v8
 		docker manifest push bayrell/alpine:$VERSION
+	;;
+	
+	upload-github)
+		docker tag bayrell/alpine:$VERSION-arm64v8 \
+		    ghcr.io/bayrell-os/alpine:$VERSION-arm64v8
+		
+		docker tag bayrell/alpine:$VERSION-amd64 \
+		    ghcr.io/bayrell-os/alpine:$VERSION-amd64
+		
+		docker push ghcr.io/bayrell-os/alpine:$VERSION-amd64
+		docker push ghcr.io/bayrell-os/alpine:$VERSION-arm64v8
+		
+		docker manifest create --amend \
+		    ghcr.io/bayrell-os/alpine:$VERSION \
+			ghcr.io/bayrell-os/alpine:$VERSION-amd64 \
+			ghcr.io/bayrell-os/alpine:$VERSION-arm64v8
+		docker manifest push --purge ghcr.io/bayrell-os/alpine:$VERSION
 	;;
 	
 	all)
